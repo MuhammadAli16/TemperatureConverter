@@ -25,93 +25,14 @@ import java.text.NumberFormat;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TextView[] textViewArray = new TextView[4];
+    private EditText[] editTextArray = new EditText[4];
     // Current selected value
     private String selectedEditTxt = "";
     // Value retrieved from sharedPref
     private String decimalPlaces = null;
-
-    // Class that limits the values accpeted for each input(editText)
-    public class InputFilterMinMax implements InputFilter {
-
-        private double min, max;
-
-        public InputFilterMinMax(double min, double max) {
-            this.min = min;
-            this.max = max;
-        }
-
-        @Override
-        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-            try {
-                // Remove the string out of destination that is to be replaced
-                String newVal = dest.toString().substring(0, dstart) + dest.toString().substring(dend, dest.toString().length());
-                // Add the new string in
-                newVal = newVal.substring(0, dstart) + source.toString() + newVal.substring(dstart, newVal.length());
-
-                if (newVal.equals("-") && selectedEditTxt.equals("3")) {
-                    Toast.makeText(MainActivity.this, "Absolute zero is = 0°Ra",
-                            Toast.LENGTH_LONG).show();
-                    return "";
-                }
-                if (newVal.equals("-") && selectedEditTxt.equals("5")) {
-                    Toast.makeText(MainActivity.this, "Absolute zero is = 0K",
-                            Toast.LENGTH_LONG).show();
-                    return "";
-                }
-                if (newVal.equals("-"))
-                    return null;
-
-
-                double input = Double.parseDouble(newVal);
-                if (isInRange(min, max, input))
-                    return null;
-                else if (selectedEditTxt.equals("1")) {
-                    Toast.makeText(MainActivity.this, "Absolute zero is = -273.15°C",
-                            Toast.LENGTH_LONG).show();
-                } else if (selectedEditTxt.equals("2")) {
-                    Toast.makeText(MainActivity.this, "Absolute zero is = -459.67°F",
-                            Toast.LENGTH_LONG).show();
-                } else if (selectedEditTxt.equals("3")) {
-                    Toast.makeText(MainActivity.this, "Absolute zero is = 0Ra",
-                            Toast.LENGTH_LONG).show();
-                } else if (selectedEditTxt.equals("4")) {
-                    Toast.makeText(MainActivity.this, "Absolute zero is = -218.52°Ré",
-                            Toast.LENGTH_LONG).show();
-                } else if (selectedEditTxt.equals("5")) {
-                    Toast.makeText(MainActivity.this, "Absolute zero is = 0K",
-                            Toast.LENGTH_LONG).show();
-                }
-            } catch (NumberFormatException nfe) {
-            }
-            return "";
-
-        }
-
-        private boolean isInRange(double a, double b, double c) {
-            return b > a ? c >= a && c <= b : c >= b && c <= a;
-        }
-    }
-
-    public void setColours(String x){
-        int arr = Integer.parseInt(x) - 1;
-
-        for (int z = 0; z < textViewArray.length; z++){
-
-            if (arr == z){
-                textViewArray[z].setTextColor(Color.parseColor(accentColour));
-            } else {
-                textViewArray[z].setTextColor(Color.BLACK);
-            }
-
-        }
-
-    }
-
-    //
-    private TextView[] textViewArray = new TextView[4];
+    // Green
     private final String accentColour = "#A5D6A7";
-
-    //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,16 +42,20 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-
-        final NumberFormat nm = NumberFormat.getInstance();
-
         final EditText celsiusValue = (EditText) findViewById(R.id.celciusText);
         final EditText far = (EditText) findViewById(R.id.farText);
         final EditText rank = (EditText) findViewById(R.id.rankineText);
         final EditText rem = (EditText) findViewById(R.id.remText);
         final EditText kelvin = (EditText) findViewById(R.id.kelvinText);
 
-//
+        editTextArray = new EditText[]{
+        (EditText) findViewById(R.id.celciusText),
+        (EditText) findViewById(R.id.farText),
+        (EditText) findViewById(R.id.rankineText),
+        (EditText) findViewById(R.id.remText),
+        (EditText) findViewById(R.id.kelvinText)
+        };
+
         textViewArray = new TextView[] {
         (TextView) findViewById(R.id.celciusSymbol),
         (TextView) findViewById(R.id.farSymbol),
@@ -138,35 +63,17 @@ public class MainActivity extends AppCompatActivity {
         (TextView) findViewById(R.id.remSymbol),
         (TextView) findViewById(R.id.kelvinSymbol)
         };
-        //
 
-
-//        final TextView celText = (TextView) findViewById(R.id.celciusSymbol);
-//        final TextView farText = (TextView) findViewById(R.id.farSymbol);
-//        final TextView rankineText = (TextView) findViewById(R.id.rankineSymbol);
-//        final TextView remText = (TextView) findViewById(R.id.remSymbol);
-//        final TextView kelvinText = (TextView) findViewById(R.id.kelvinSymbol);
-
-
-        // cel.addTextChangedListener(this);
 
         celsiusValue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View arg0, boolean hasFocus) {
                 selectedEditTxt = "1";
 
-                // Set Celcius
-                celsiusValue.setFilters(new InputFilter[]{new InputFilterMinMax(-273.15, Double.MAX_VALUE)});
+                celsiusValue.setFilters(new InputFilter[]{new InputFilterMinMax(-273.15, Double.MAX_VALUE), new InputFilter.LengthFilter(10)});
                 //getWindow().setNavigationBarColor(Color.parseColor("#A5D6A7"));
-
                 setColours(selectedEditTxt);
-//                celValue.setTextColor(Color.parseColor(accentColour));
-//
-//                //reset others to black
-//                farValue.setTextColor(Color.BLACK);
-//                rankineValue.setTextColor(Color.BLACK);
-//                remValue.setTextColor(Color.BLACK);
-//                kelvinValue.setTextColor(Color.BLACK);
+
             }
 
         });
@@ -176,18 +83,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 selectedEditTxt = "2";
+                far.setFilters(new InputFilter[]{new InputFilterMinMax(-459.67, Double.MAX_VALUE), new InputFilter.LengthFilter(10)});
                 setColours(selectedEditTxt);
-                celsiusValue.setFilters(new InputFilter[]{new InputFilterMinMax(-459.67, Double.MAX_VALUE)});
-
-                // Set fahrenheit
-//                farText.setTextColor(Color.parseColor(accentColour));
-//
-//                // reset others
-//                celText.setTextColor(Color.BLACK);
-//                // celsiusValue.setFilters(new InputFilter[]{});
-//                rankineText.setTextColor(Color.BLACK);
-//                remText.setTextColor(Color.BLACK);
-//                kelvinText.setTextColor(Color.BLACK);
             }
         });
 
@@ -196,16 +93,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 selectedEditTxt = "3";
-                // Set rankine
                 rank.setFilters(new InputFilter[]{new InputFilterMinMax(0, Double.MAX_VALUE), new InputFilter.LengthFilter(10)});
                 setColours(selectedEditTxt);
-//                rankineText.setTextColor(Color.parseColor(accentColour));
-//
-//                // reset others
-//                celText.setTextColor(Color.BLACK);
-//                farText.setTextColor(Color.BLACK);
-//                remText.setTextColor(Color.BLACK);
-//                kelvinText.setTextColor(Color.BLACK);
             }
         });
         rem.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -213,16 +102,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 selectedEditTxt = "4";
-                // Set rem
                 rem.setFilters(new InputFilter[]{new InputFilterMinMax(-218.52, Double.MAX_VALUE), new InputFilter.LengthFilter(10)});
                 setColours(selectedEditTxt);
-//                remText.setTextColor(Color.parseColor(accentColour));
-//
-//                // reset others
-//                celText.setTextColor(Color.BLACK);
-//                farText.setTextColor(Color.BLACK);
-//                rankineText.setTextColor(Color.BLACK);
-//                kelvinText.setTextColor(Color.BLACK);
             }
         });
 
@@ -231,16 +112,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 selectedEditTxt = "5";
-                // Set rem
                 kelvin.setFilters(new InputFilter[]{new InputFilterMinMax(0, Double.MAX_VALUE), new InputFilter.LengthFilter(10)});
                 setColours(selectedEditTxt);
-//                kelvinText.setTextColor(Color.parseColor(accentColour));
-//
-//                // reset others
-//                celText.setTextColor(Color.BLACK);
-//                farText.setTextColor(Color.BLACK);
-//                rankineText.setTextColor(Color.BLACK);
-//                remText.setTextColor(Color.BLACK);
             }
         });
 
@@ -294,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
                     //Celcius
                     double outputCelcius = (temp - 32) / 1.8;
-                    celsiusValue.setText(nm.format(outputCelcius).replaceAll(",", "") + "");
+                    celsiusValue.setText(stripDecimal(outputCelcius) + "");
                     //Rankine
                     double outputRankine = (temp + 459.67);
                     rank.setText(stripDecimal(outputRankine) + "");
@@ -422,10 +295,7 @@ public class MainActivity extends AppCompatActivity {
                     double outputRem = (temp - 273.15) * 0.8;
                     rem.setText(stripDecimal(outputRem) + "");
                 } else if (selectedEditTxt.equals("5")) {
-                    celsiusValue.setText("");
-                    far.setText("");
-                    rank.setText("");
-                    rem.setText("");
+                    resetText(selectedEditTxt);
                 }
             }
 
@@ -469,6 +339,30 @@ public class MainActivity extends AppCompatActivity {
         return strippedTemp;
     }
 
+    public void resetText(String x){
+        int arr = Integer.parseInt(x) - 1;
+
+        for (int z = 0; z < editTextArray.length; z++){
+            if (arr != z) {editTextArray[z].setText("");}
+        }
+
+    }
+
+    public void setColours(String x){
+        int arr = Integer.parseInt(x) - 1;
+
+        for (int z = 0; z < textViewArray.length; z++){
+
+            if (arr == z){
+                textViewArray[z].setTextColor(Color.parseColor(accentColour));
+            } else {
+                textViewArray[z].setTextColor(Color.BLACK);
+            }
+
+        }
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -499,4 +393,68 @@ public class MainActivity extends AppCompatActivity {
     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
     decimalPlaces = prefs.getString("decimals", "");
     }
+
+    // Class that limits the values accpeted for each input(editText)
+    public class InputFilterMinMax implements InputFilter {
+
+        private double min, max;
+
+        public InputFilterMinMax(double min, double max) {
+            this.min = min;
+            this.max = max;
+        }
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            try {
+                // Remove the string out of destination that is to be replaced
+                String newVal = dest.toString().substring(0, dstart) + dest.toString().substring(dend, dest.toString().length());
+                // Add the new string in
+                newVal = newVal.substring(0, dstart) + source.toString() + newVal.substring(dstart, newVal.length());
+
+                if (newVal.equals("-") && selectedEditTxt.equals("3")) {
+                    Toast.makeText(MainActivity.this, "Absolute zero is = 0°Ra",
+                            Toast.LENGTH_LONG).show();
+                    return "";
+                }
+                if (newVal.equals("-") && selectedEditTxt.equals("5")) {
+                    Toast.makeText(MainActivity.this, "Absolute zero is = 0K",
+                            Toast.LENGTH_LONG).show();
+                    return "";
+                }
+                if (newVal.equals("-"))
+                    return null;
+
+
+                double input = Double.parseDouble(newVal);
+                if (isInRange(min, max, input))
+                    return null;
+                else if (selectedEditTxt.equals("1")) {
+                    Toast.makeText(MainActivity.this, "Absolute zero is = -273.15°C",
+                            Toast.LENGTH_LONG).show();
+                } else if (selectedEditTxt.equals("2")) {
+                    Toast.makeText(MainActivity.this, "Absolute zero is = -459.67°F",
+                            Toast.LENGTH_LONG).show();
+                } else if (selectedEditTxt.equals("3")) {
+                    Toast.makeText(MainActivity.this, "Absolute zero is = 0Ra",
+                            Toast.LENGTH_LONG).show();
+                } else if (selectedEditTxt.equals("4")) {
+                    Toast.makeText(MainActivity.this, "Absolute zero is = -218.52°Ré",
+                            Toast.LENGTH_LONG).show();
+                } else if (selectedEditTxt.equals("5")) {
+                    Toast.makeText(MainActivity.this, "Absolute zero is = 0K",
+                            Toast.LENGTH_LONG).show();
+                }
+            } catch (NumberFormatException nfe) {
+            }
+            return "";
+
+        }
+
+        private boolean isInRange(double a, double b, double c) {
+            return b > a ? c >= a && c <= b : c >= b && c <= a;
+        }
+    }
 }
+
+
