@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:layout_gravity="center"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.muhammad.temperatureconverter.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal|numberSigned"
+        android:ems="7"
+        android:id="@+id/celciusText"
+        android:imeOptions="actionDone|flagNoExtractUi"
+        android:maxLength="10"
+        android:layout_row="0"
+        android:layout_column="0" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="°C"
+        android:id="@+id/celciusSymbol"
+        android:layout_row="0"
+        android:layout_column="1" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal|numberSigned"
+        android:ems="7"
+        android:id="@+id/remText"
+        android:imeOptions="actionDone|flagNoExtractUi"
+        android:maxLength="10"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:password="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="°Ré"
+        android:id="@+id/remSymbol"
+        android:layout_row="1"
+        android:layout_column="1" />
+
+    <Space
+        android:layout_width="15dp"
+        android:layout_height="20dp"
+        android:layout_row="1"
+        android:layout_column="2" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal|numberSigned"
+        android:ems="7"
+        android:id="@+id/kelvinText"
+        android:imeOptions="actionDone|flagNoExtractUi"
+        android:maxLength="10"
+        android:layout_row="1"
+        android:layout_column="3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="K"
+        android:id="@+id/kelvinSymbol"
+        android:layout_row="1"
+        android:layout_column="4" />
+
+    <Space
+        android:layout_width="15dp"
+        android:layout_height="20px"
+        android:layout_row="0"
+        android:layout_column="2" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal|numberSigned"
+        android:ems="7"
+        android:id="@+id/farText"
+        android:imeOptions="actionDone|flagNoExtractUi"
+        android:maxLength="10"
+        android:layout_row="0"
+        android:layout_column="3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="°F"
+        android:id="@+id/farSymbol"
+        android:layout_row="0"
+        android:layout_column="4"
+        android:focusable="false" />
+
+    <Space
+        android:layout_width="15dp"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_column="5" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal|numberSigned"
+        android:ems="7"
+        android:id="@+id/rankineText"
+        android:imeOptions="actionDone|flagNoExtractUi"
+        android:maxLength="10"
+        android:layout_row="0"
+        android:layout_column="6" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="°R"
+        android:id="@+id/rankineSymbol"
+        android:layout_row="0"
+        android:layout_column="7" />
+
+</GridLayout>

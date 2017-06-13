@@ -1,0 +1,30 @@
+<PreferenceScreen
+xmlns:android="http://schemas.android.com/apk/res/android">
+
+<PreferenceCategory
+    android:title="@string/settings_general">
+
+    <CheckBoxPreference
+        android:key="checkBoxPref"
+        android:title="check it out"
+        android:summary="click this little box - it does nothing 0_0"/>
+
+    <ListPreference
+        android:key="decimals"
+        android:summary="Number of decimals places to show"
+        android:title="Decimal Places"
+        android:entries="@array/decimal_places"
+        android:entryValues="@array/decimal_places"/>
+
+</PreferenceCategory>
+    <PreferenceCategory android:title="About">
+
+        <Preference
+            android:key="about"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Temperature Converter Version"
+            android:summary="V1.0.0"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>
